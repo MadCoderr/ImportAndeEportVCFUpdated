@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ImortAndExportVCF</string>
+    <string name="export">Export</string>
+    <string name="import_btn">Import</string>
+</resources>
