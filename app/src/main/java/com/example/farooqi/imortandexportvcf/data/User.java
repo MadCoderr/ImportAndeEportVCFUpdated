@@ -1,5 +1,7 @@
 package com.example.farooqi.imortandexportvcf.data;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +21,8 @@ public class User {
     }
 
     public String getName() {
-        return name.replaceAll("[\\W+]", " ");
+        name = name.replaceAll("[\\W+]", " ").trim();
+        return name;
     }
 
     public void setName(String name) {
@@ -27,7 +30,7 @@ public class User {
     }
 
     public String getFname() {
-        return fname;
+        return fname.trim();
     }
 
     public void setFname(String fname) {
@@ -66,4 +69,17 @@ public class User {
         return userData;
     }
 
+    private static String splitName(String name) {
+        if (name.contains(" ")) {
+            String newName = "";
+            String[] arr = name.split(" ");
+            for (int i = arr.length -1; i >=  0; i--) {
+                if (!arr[i].equals(""))
+                    newName += arr[i] + " ";
+            }
+            return newName.trim();
+        } else {
+            return name;
+        }
+    }
 }

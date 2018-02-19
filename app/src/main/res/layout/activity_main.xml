@@ -25,6 +25,14 @@
         android:layout_toEndOf="@id/btn_export"
         android:onClick="importVCF"/>
 
+        <Button
+            android:id="@+id/btn_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_export"
+            android:layout_margin="10dp"
+            android:text="@string/click"
+            android:onClick="showSnackBar"/>
 
     <ProgressBar
         android:id="@+id/pro_bar"

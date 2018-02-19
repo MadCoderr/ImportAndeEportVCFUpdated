@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.farooqi.imortandexportvcf.utils.NetworkUtils;
 
@@ -61,18 +62,16 @@ public class ExportVCF {
                 file = new File(storage_path);
                 Log.i(LOG_TAG, file.getPath());
 
-                // calling network utils
-//                NetworkUtils.exportVCFToServer(file);
             } else {
                 Log.i(LOG_TAG, "storage path is empty or null");
             }
 
 
         } else {
-            Log.i(LOG_TAG, "no contacts availabe");
+            Log.i(LOG_TAG, "contacts not found");
         }
 
-        return file;
+        return  file;
     }
 
 

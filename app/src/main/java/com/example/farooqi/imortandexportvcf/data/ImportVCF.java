@@ -22,15 +22,9 @@ public class ImportVCF {
     }
 
     public String showRestul(List<User> userList) {
-        int count = 0;
         for (User user : userList) {
-            newContacts(user.getName(), user.getTel());
-            count++;
-            Log.i("MainActivity_size_count", "Count: " + count);
-            if (count == userList.size()) {
-                Log.i("MainActivity_size_count", "Count: " + count);
-                break;
-            }
+            newContacts(user.getFname(), user.getTel());
+            Log.i("Names: ", user.getName());
         }
         return "contact imported";
     }
@@ -49,6 +43,7 @@ public class ImportVCF {
                 .withValue(ContactsContract.Data.MIMETYPE,
                         ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
                 .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, name)
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, name)
                 .build()
         );
 

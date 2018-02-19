@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.farooqi.imortandexportvcf.MainActivity;
 import com.example.farooqi.imortandexportvcf.data.ImportVCFStream;
 import com.example.farooqi.imortandexportvcf.data.User;
 import com.loopj.android.http.AsyncHttpClient;
@@ -11,6 +12,7 @@ import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,7 +35,11 @@ public class NetworkUtils {
     }
 
     public interface TaskComplete {
-        void onTaskCompleted(String result, String fileName);
+        void onTaskCompleted(String result);
+    }
+
+    public interface FileName {
+        void fileName(String fileName);
     }
 
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
@@ -58,15 +64,16 @@ public class NetworkUtils {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
+                    Log.i(LOG_TAG, response.names().toString());
                     Log.i(LOG_TAG, response.getString("filename"));
                     Log.i(LOG_TAG, response.toString());
                     String status = response.getString("status");
                     if (status.equals("1")) {
                         Log.i(LOG_TAG, "uploaded");
-                        task.onTaskCompleted("uploaded", response.getString("filename"));
+                        task.onTaskCompleted("uploaded");
                     } else {
                         Log.i(LOG_TAG, "could not uploaded it");
-                        task.onTaskCompleted("not uploaded", "null");
+                        task.onTaskCompleted("not uploaded");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -104,5 +111,24 @@ public class NetworkUtils {
                 }
             }
             });
+    }
+
+
+    public static void  getFileFromServer(final FileName fileName) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        String url = "http://konnect.aptechmedia.com/user/getuserdata/89";
+        client.get(url, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.i("Network", response.toString());
+                try {
+                    JSONObject object = response.getJSONObject(0);
+                    Log.i("Network", object.getString("u_vcf"));
+                    fileName.fileName(object.getString("u_vcf"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
